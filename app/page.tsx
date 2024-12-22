@@ -1,95 +1,131 @@
-import Image from "next/image";
-import styles from "./page.module.css";
+"use client";
 
-export default function Home() {
-  return (
-    <div className={styles.page}>
-      <main className={styles.main}>
-        <Image
-          className={styles.logo}
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol>
-          <li>
-            Get started by editing <code>app/page.tsx</code>.
-          </li>
-          <li>Save and see your changes instantly.</li>
-        </ol>
+import { useRouter } from "next/navigation";
 
-        <div className={styles.ctas}>
-          <a
-            className={styles.primary}
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className={styles.logo}
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-            className={styles.secondary}
-          >
-            Read our docs
-          </a>
-        </div>
-      </main>
-      <footer className={styles.footer}>
-        <a
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
-    </div>
-  );
+import {
+  Box,
+  Grid,
+  Card,
+  CardContent,
+  CardMedia,
+  Typography,
+  CardActionArea,
+} from "@mui/material";
+
+// Import images directly from app/images folder
+import userTimeImage from "@/app/images/user_time_image.jpeg";
+import idleTimeImage from "@/app/images/idle_time_image.jpeg";
+import systemTimeImage from "@/app/images/system_time_image.jpeg";
+import niceTimeImage from "@/app/images/nice_time_image.jpeg";
+import irqTimeImage from "@/app/images/irq_time_image.jpeg";
+import upTimeImage from "@/app/images/up_time_image.jpeg";
+
+interface Times {
+  user: number;
+  nice: number;
+  sys: number;
+  idle: number;
+  irq: number;
+  up: number;
 }
+
+// Metrics with longer descriptions
+const metrics = [
+  {
+    label: "User Time",
+    description: `User Time refers to the time spent by the CPU running user-initiated processes 
+                  and applications. This includes any tasks that are started by the user or programs 
+                  running in the foreground. A high percentage of user time often indicates that the 
+                  CPU is heavily engaged in processing user commands and software executions.`,
+    image: userTimeImage,
+    metric: "user",
+  },
+  {
+    label: "Idle Time",
+    description: `Idle Time represents the amount of time the CPU spends doing nothing or waiting for 
+                  tasks to be assigned. It’s important because it shows the capacity available in the 
+                  system for additional work. A high idle time means the CPU has ample resources to 
+                  handle more tasks, while a low idle time suggests the CPU is nearing its limit.`,
+    image: idleTimeImage,
+    metric: "idle",
+  },
+  {
+    label: "System Time",
+    description: `System Time tracks the time the CPU spends executing system-level processes, which 
+                  are tasks initiated by the operating system itself. This time is crucial for managing 
+                  hardware resources, memory, and other system services that ensure smooth operation 
+                  of all running applications and services.`,
+    image: systemTimeImage,
+    metric: "sys",
+  },
+  {
+    label: "Nice Time",
+    description: `Nice Time refers to the time spent on lower-priority processes. These processes are 
+                  given "nice" values by the system, which determine their importance relative to other 
+                  tasks. A higher nice time indicates that the CPU is focusing more on these background 
+                  or lower-priority tasks without interrupting more critical operations.`,
+    image: niceTimeImage,
+    metric: "nice",
+  },
+  {
+    label: "IRQ Time",
+    description: `IRQ Time, or interrupt request time, measures the time the CPU spends responding to 
+                  hardware interrupts. Hardware devices, such as input/output devices or sensors, send 
+                  interrupts to the CPU to signal that they need immediate attention. A higher IRQ time 
+                  means the system is busy dealing with hardware events.`,
+    image: irqTimeImage,
+    metric: "irq",
+  },
+  {
+    label: "Up Time",
+    description: `Uptime refers to the amount of time the system has been running continuously without a reboot. Monitoring system uptime is essential for tracking system stability and ensuring high availability for critical applications.`,
+    image: upTimeImage,
+    metric: "up",
+  },
+];
+
+const Page = () => {
+  const router = useRouter();
+  const handleCardClick = (label: keyof Times) => {
+    if (label === "up") {
+      router.push("charts/uptime");
+    } else {
+      const queryParam = label.toLocaleLowerCase();
+      console.log("queryParam", queryParam);
+      router.push(`/charts/cpus?times=${queryParam}`);
+    }
+  };
+
+  return (
+    <Box sx={{ p: 3 }}>
+      <Grid container spacing={3}>
+        {metrics.map((metric, index) => (
+          <Grid item xs={12} sm={6} md={4} key={index} spacing={10}>
+            <Card>
+              <CardActionArea
+                onClick={() => handleCardClick(metric.metric as keyof Times)}
+              >
+                <CardMedia
+                  component="img"
+                  height="200"
+                  src={metric.image.src} // Using the imported image directly
+                  alt={metric.label}
+                />
+                <CardContent sx={{ height: 200 }}>
+                  <Typography variant="h6" sx={{ fontWeight: "bold" }}>
+                    {metric.label}
+                  </Typography>
+                  <Typography variant="body2" color="text.secondary">
+                    {metric.description}
+                  </Typography>
+                </CardContent>
+              </CardActionArea>
+            </Card>
+          </Grid>
+        ))}
+      </Grid>
+    </Box>
+  );
+};
+
+export default Page;
