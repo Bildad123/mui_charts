@@ -19,6 +19,7 @@ import systemTimeImage from "@/app/images/system_time_image.jpeg";
 import niceTimeImage from "@/app/images/nice_time_image.jpeg";
 import irqTimeImage from "@/app/images/irq_time_image.jpeg";
 import upTimeImage from "@/app/images/up_time_image.jpeg";
+import memoryUsageImage from "@/app/images/memory_usage_image.jpeg";
 
 interface Times {
   user: number;
@@ -26,7 +27,8 @@ interface Times {
   sys: number;
   idle: number;
   irq: number;
-  up: number;
+  up: number; //Todo
+  memory: number; //Todo
 }
 
 // Metrics with longer descriptions
@@ -82,13 +84,22 @@ const metrics = [
     image: upTimeImage,
     metric: "up",
   },
+  {
+    label: "Memory Usage",
+    description: `Memory usage refers to the amount of RAM currently used by the OS and applications. Monitoring memory is crucial for system performance, as high usage can lead to slowdowns or crashes, while low usage may indicate underutilized resources.`,
+    image: memoryUsageImage,
+    metric: "memory",
+  },
 ];
 
 const Page = () => {
   const router = useRouter();
   const handleCardClick = (label: keyof Times) => {
+    //Todo
     if (label === "up") {
       router.push("charts/uptime");
+    } else if (label === "memory") {
+      router.push("charts/memory");
     } else {
       const queryParam = label.toLocaleLowerCase();
       console.log("queryParam", queryParam);

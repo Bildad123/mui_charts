@@ -50,7 +50,23 @@ const Page = () => {
     { data: uptimeData.map((entry) => entry.data), label: "Up Time" },
   ];
 
-  if (isLoading) return <p>Loading...</p>;
+  const emptySeries = {
+    series: [],
+    margin: { top: 10, right: 10, left: 25, bottom: 25 },
+    height: 400,
+  };
+
+  if (isLoading)
+    return (
+      <>
+        <LineChart
+          loading
+          xAxis={[{ data: [0, 1, 2, 4, 5] }]}
+          yAxis={[{ min: 0, max: 10 }]}
+          {...emptySeries}
+        />
+      </>
+    );
   if (!uptimeData || uptimeData.length === 0) return <p>No data available</p>;
 
   return (

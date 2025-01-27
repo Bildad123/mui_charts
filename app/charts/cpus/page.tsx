@@ -4,6 +4,7 @@ import { Box } from "@mui/material";
 import { useState, useEffect, Suspense } from "react";
 import { useSearchParams } from "next/navigation";
 import TimeChart from "./TimeChart";
+import { LineChart } from "@mui/x-charts";
 
 interface Times {
   user: number;
@@ -54,7 +55,23 @@ const PageContent = () => {
     return () => clearInterval(intervalId);
   }, []);
 
-  if (isLoading) return <p>Loading...</p>;
+  const emptySeries = {
+    series: [],
+    margin: { top: 10, right: 10, left: 25, bottom: 25 },
+    height: 400,
+  };
+
+  if (isLoading)
+    return (
+      <>
+        <LineChart
+          loading
+          xAxis={[{ data: [0, 1, 2, 4, 5] }]}
+          yAxis={[{ min: 0, max: 10 }]}
+          {...emptySeries}
+        />
+      </>
+    );
   if (!cpuData || cpuData.length === 0) return <p>No data available</p>;
 
   return (
