@@ -1,36 +1,50 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
-## Getting Started
+# CPU Usage Tracker
 
-First, run the development server:
+This project is a **React** application that visualizes CPU usage data over time using a line chart. The app reads CPU usage data periodically (every few seconds), and updates the chart to show how the CPU metrics such as **User Time**, **Idle Time**, **System Time**, **Nice Time**, and **IRQ Time** change over time.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## Tech Stack
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+- **React** - JavaScript library for building user interfaces.
+- **MUI** (Material UI) - Provides a set of React components for building responsive and accessible UIs.
+- **MUI X Charts** - A set of React components to integrate charts into React applications, used here for the line chart.
+- **TypeScript** - For type safety and enhanced development experience.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
 
-## Learn More
+## Installation
 
-To learn more about Next.js, take a look at the following resources:
+### Prerequisites
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Ensure you have the following installed:
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+- **Node.js** (v14 or above)
+- **npm** or **yarn**
 
-## Deploy on Vercel
+### Step-by-step Installation
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+1. **Clone the repository**
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+   Clone this repository to your local machine using Git:
+
+   ```bash
+   git clone https://github.com/Bildad123/mui_charts.git 
+   ```
+
+
+
+## Running in Development Mode
+
+When you want to run the application locally for development, follow these steps:
+
+### Start the Development Server:
+
+In development mode, Next.js will automatically reload changes when you save files.
+
+- If you're using **npm**:
+
+  ```bash
+  npm run dev
+  ```
+
+This will start your application at http://localhost:3000 by default. The development server enables hot reloading, so any changes you make to the code will automatically reflect in the browser without needing a manual refresh.
